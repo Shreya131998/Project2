@@ -20,7 +20,7 @@ const createCollege=async function(req,res){
             return res.status(400).send({status:false,message:"Please provide name"})
         }
         const checkname = await collegeModel.findOne({name:reqbody.name})
-        if(checkname){return res.status(400).send({status:"College already registred"})}
+        if(checkname){return res.status(400).send({status:false,message:"College already registered"})}
         if(!fullName?.trim()){
             return res.status(400).send({status:false,message:"Please provide fullname"})
 
