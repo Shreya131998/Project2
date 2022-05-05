@@ -38,8 +38,8 @@ const createIntern = async function (req, res) {
         .send({ status: false, message: "Email already registered" });
     }
 
-    let mobileCheck = /^\d{10}$/
-    if (mobileCheck.match(mobile)) {
+    
+    if (!(/^\d{10}$/).test(mobile)) {
       return res
         .status(400)
         .send({ status: false, message: "Mobile no should be valid" });
