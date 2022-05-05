@@ -30,6 +30,9 @@ const createCollege=async function(req,res){
 
 
         }
+        if(!/^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+\.[a-z]+(\/[a-zA-Z0-9#]+\/?)*$/.test(logoLink)){
+            return res.status(400).send({status:false,message:"please provide valid link"})
+        }
         const collegeDetails=await collegeModel.create(reqbody)
         return res.status(201).send({status:true,data:collegeDetails})
 
