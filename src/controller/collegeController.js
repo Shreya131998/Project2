@@ -42,18 +42,27 @@ const createCollege=async function(req,res){
 
 //GET /functionup/collegeDetails
 
+
+
 const collegeDetails = async function(req,res){
     try{
     const {collegeName} = req.query
+
     if(!collegeName){
         return res.status(404).send({status:false,message:"Page not found"})
-    }          
-    let findCollegeDetail = await collegeModel.findOne({name:collegeName,isDeleted:false}).select({createdAt:0,updatedAt:0,__v:0})
+    }  
+    let getlowername = collegeName.toLowerCase();        
+    let findCollegeDetail = await collegeModel.findOne({name:getlowername,isDeleted:false}).select({createdAt:0,updatedAt:0,__v:0})
     if(!findCollegeDetail){return res.status(404).send({status : false,message :"College not found"})}
    
 
     let findInternList = await internModel.find({collegeId :findCollegeDetail._id,isDeleted:false}).select({isDeleted:0,__v:0})
-    
+    if(findInternList.length===0){
+        findCollegeDetail.interests="no intern found"
+    }
+    else{
+        findCollegeDetail.interests=findInternList
+    }
     
     findCollegeDetail.interests = findInternList
      let finalObj ={}
@@ -70,8 +79,6 @@ const collegeDetails = async function(req,res){
 
 
 
-
 }
-
 
 module.exports={createCollege,collegeDetails}
