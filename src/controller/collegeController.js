@@ -59,16 +59,13 @@ const collegeDetails = async function (req, res) {
   try {
     let { collegeName } = req.query;
     let getlowername = collegeName.toLowerCase();
-    console.log(getlowername);
     if (!collegeName) {
       return res.status(404).send({ message: "Page Not Found" });
     }
-    console.log(collegeName);
 
     let findCollegeDetail = await collegeModel
       .findOne({ name: getlowername }, { isDeleted: false })
       .select({ createdAt: 0, updatedAt: 0, __v: 0 });
-    console.log(findCollegeDetail);
 
     if (!findCollegeDetail) {
       return res

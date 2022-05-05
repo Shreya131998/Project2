@@ -69,9 +69,10 @@ const createIntern = async function (req, res) {
         .status(404)
         .send({ status: false, message: "College not registered" });
     }
-    
+
     //LOGIC
-    const getId = getCollegeId._id;
+    const getId = getCollegeId._doc;
+  
     reqbody.collegeId = getId;
     const internDetails = await internModel.create(reqbody);
     return res.status(201).send({ status: true, data: internDetails });
