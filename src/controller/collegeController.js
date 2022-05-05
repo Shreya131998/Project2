@@ -14,7 +14,7 @@ const isValidRequestBody=function(requestBody){
 const createCollege=async function(req,res){
     try{
         const reqbody=req.body 
-        if(!isValidRequestBody(reqbody)){return res.status(400).send({status:false,message:"Please provide valid credentials"})}
+        if(!isValidRequestBody(reqbody)){return res.status(400).send({status:false,message:"Please provide college details"})}
         const {name,fullName,logoLink}=reqbody
         if(!name?.trim()){
             return res.status(400).send({status:false,message:"Please provide name"})
@@ -44,10 +44,11 @@ const createCollege=async function(req,res){
 
 const collegeDetails = async function(req,res){
     try{
-    const getQueryData = req.query
-    //console.log(getQueryData)
-    //gets id           
-    let findCollegeDetail = await collegeModel.findOne(getQueryData,{isDeleted:false}).select({createdAt:0,updatedAt:0,__v:0})
+    const {collegeName} = req.query
+    if(!collegeName){
+        return res.status(404).send({status:false,message:"Page not found"})
+    }          
+    let findCollegeDetail = await collegeModel.findOne({name:collegeName,isDeleted:false}).select({createdAt:0,updatedAt:0,__v:0})
     if(!findCollegeDetail){return res.status(404).send({status : false,message :"College not found"})}
    
 
